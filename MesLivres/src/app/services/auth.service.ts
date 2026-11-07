@@ -36,15 +36,22 @@ export class AuthService {
   }
 
   decodeJWT() {
-    if (this.token == undefined) return;
+    if (this.token == undefined || this.token == null) return;
     const decodedToken = this.helper.decodeToken(this.token);
-    this.roles = decodedToken.roles;
-    this.loggedUser = decodedToken.sub;
+    if (decodedToken) {
+      this.roles = decodedToken.roles;
+      this.loggedUser = decodedToken.sub;
+    }
   }
 
   loadToken() {
     this.token = localStorage.getItem('jwt')!;
-    this.decodeJWT();
+    if (this.token) {
+      this.decodeJWT();
+      if (!this.isTokenExpired()) {
+        this.isloggedIn = true;
+      }
+    }
   }
 
   getToken(): string {
@@ -52,6 +59,7 @@ export class AuthService {
   }
 
   isTokenExpired(): Boolean {
+    if (!this.token) return true;
     return this.helper.isTokenExpired(this.token);
   }
 
