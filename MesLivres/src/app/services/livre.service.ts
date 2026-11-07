@@ -20,25 +20,25 @@ export class LivreService {
   constructor(private http: HttpClient) {}
 
   listeLivre(): Observable<Livre[]> {
-    return this.http.get<Livre[]>(this.apiURL);
+    return this.http.get<Livre[]>(this.apiURL + '/all');
   }
 
   ajouterLivre(livre: Livre): Observable<Livre> {
-    return this.http.post<Livre>(this.apiURL, livre, httpOptions);
+    return this.http.post<Livre>(this.apiURL + '/addlivre', livre, httpOptions);
   }
 
   supprimerLivre(id: number): Observable<any> {
-    const url = `${this.apiURL}/${id}`;
+    const url = `${this.apiURL}/dellivre/${id}`;
     return this.http.delete(url, httpOptions);
   }
 
   consulterLivre(id: number): Observable<Livre> {
-    const url = `${this.apiURL}/${id}`;
+    const url = `${this.apiURL}/getbyid/${id}`;
     return this.http.get<Livre>(url);
   }
 
   updateLivre(livre: Livre): Observable<Livre> {
-    return this.http.put<Livre>(this.apiURL, livre, httpOptions);
+    return this.http.put<Livre>(this.apiURL + '/updatelivre', livre, httpOptions);
   }
 
   listeEcrivains(): Observable<EcrivainWrapper> {
@@ -61,7 +61,7 @@ export class LivreService {
 
   // ── Recherche par écrivain (id) ──────────────────────────────
   rechercherParEcrivain(idEcrivain: number): Observable<Livre[]> {
-    const url = `${this.apiURL}/livresParEcrivain/${idEcrivain}`;
+    const url = `${this.apiURL}/livrsecriv/${idEcrivain}`;
     return this.http.get<Livre[]>(url);
   }
 
