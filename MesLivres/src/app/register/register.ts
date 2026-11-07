@@ -44,6 +44,7 @@ export class RegisterComponent implements OnInit {
 
   onRegister() {
     this.loading = true;
+    this.err = null;
     this.authService.registerUser(this.user).subscribe({
       next: (res) => {
         this.authService.setRegistredUser(this.user);
@@ -53,10 +54,14 @@ export class RegisterComponent implements OnInit {
       },
       error: (err: any) => {
         this.loading = false;
-        if (err.status == 400) {
-          this.err = err.error?.message || "Erreur lors de l'inscription";
+        if (err.error?.errorCode === 'USER_EMAIL_ALREADY_EXISTS') {
+          this.err = 'Email already used!';
+        } else if (err.status == 400) {
+          this.err = err.error?.message || 'Email already used!';
+        } else if (err.status === 0) {
+          this.err = 'Impossible de contacter le serveur backend (port 8081). Vérifiez que users-microservice et MySQL sont démarrés.';
         } else {
-          this.err = err.error?.message || 'Erreur serveur';
+          this.err = err.error?.message || 'Erreur lors de l\'inscription';
         }
       },
     });
@@ -64,4 +69,3 @@ export class RegisterComponent implements OnInit {
 }
 
 export { RegisterComponent as Register };
-

@@ -7,6 +7,7 @@
             <strong>{{ err }}</strong>
           </div>
         }
+
         <div class="form-group">
           <label>Nom Utilisateur :</label>
           <input
@@ -25,6 +26,7 @@
             Nom Utilisateur est obligatoire
           </span>
         }
+
         <div class="form-group mt-2">
           <label>email :</label>
           <input
@@ -51,6 +53,7 @@
             email non valide
           </span>
         }
+
         <div class="form-group mt-2">
           <label>Mot de passe :</label>
           <input
@@ -77,6 +80,7 @@
             mot de passe doit contenir au moins 6 caractères
           </span>
         }
+
         <div class="form-group mt-2">
           <label>Confirmer Mot de passe :</label>
           <input
@@ -94,6 +98,7 @@
             confirmer mot de passe est obligatoire
           </span>
         }
+
         <div>
           @if (
             myForm.get('confirmPassword')?.touched &&
@@ -105,6 +110,15 @@
             </span>
           }
         </div>
+
+        @if (loading) {
+          <div class="d-flex justify-content-center my-3">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        }
+
         <button
           type="button"
           [disabled]="myForm.invalid"
@@ -113,16 +127,9 @@
         >
           S'inscrire
         </button>
+
         <p class="mt-3">vous avez un compte? <a routerLink="/login">se connecter </a></p>
       </form>
-      @if (loading) {
-        <div class="d-flex justify-content-center mt-3">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      }
     </div>
   </div>
 </div>
-
