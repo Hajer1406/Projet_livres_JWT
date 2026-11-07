@@ -8,6 +8,8 @@ import { ListeEcrivains } from './liste-ecrivains/liste-ecrivains';
 import { Login } from './login/login';
 import { Forbidden } from './forbidden/forbidden';
 import { livreGuard } from './livre.guard';
+import { RegisterComponent } from './register/register';
+import { VerifEmailComponent } from './verif-email/verif-email';
 
 export const routes: Routes = [
   { path: 'livres', component: Livres },
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: 'listeEcrivains', component: ListeEcrivains },
   { path: 'listeCategories', redirectTo: 'listeEcrivains' },
   { path: 'login', component: Login },
+  { path: 'register', component: RegisterComponent },
+  { path: 'verifEmail', component: VerifEmailComponent },
   { path: 'app-forbidden', component: Forbidden },
   { path: '', redirectTo: 'livres', pathMatch: 'full' },
 ];

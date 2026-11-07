@@ -34,14 +34,16 @@ public class SecurityConfig {
 						CorsConfiguration cors = new CorsConfiguration();
 						cors.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
 						cors.setAllowedMethods(Collections.singletonList("*"));
+						cors.setAllowCredentials(true);
 						cors.setAllowedHeaders(Collections.singletonList("*"));
 						cors.setExposedHeaders(Collections.singletonList("Authorization"));
+						cors.setMaxAge(3600L);
 						return cors;
 					}
 				}))
 
 				.authorizeHttpRequests(requests -> requests
-						.requestMatchers("/login").permitAll()
+						.requestMatchers("/login", "/register/**", "/verifyEmail/**").permitAll()
 						.requestMatchers("/all").hasAuthority("ADMIN")
 						.anyRequest().authenticated())
 

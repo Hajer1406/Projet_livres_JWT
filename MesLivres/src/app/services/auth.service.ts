@@ -15,6 +15,7 @@ export class AuthService {
   public loggedUser!: string;
   public isloggedIn: Boolean = false;
   public roles!: string[];
+  public regitredUser: User = new User();
 
   constructor(
     private router: Router,
@@ -72,5 +73,23 @@ export class AuthService {
     this.loggedUser = login;
     this.isloggedIn = true;
     this.loadToken();
+  }
+
+  setRegistredUser(user: User) {
+    this.regitredUser = user;
+  }
+
+  getRegistredUser() {
+    return this.regitredUser;
+  }
+
+  registerUser(user: User) {
+    return this.http.post<User>(this.apiURL + '/register', user, {
+      observe: 'response',
+    });
+  }
+
+  validateEmail(code: string) {
+    return this.http.get<User>(this.apiURL + '/verifyEmail/' + code);
   }
 }

@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <div class="row justify-content-md-center">
+    <div class="col-md-4">
+      @if (err) {
+        <div class="alert alert-danger">
+          <strong>{{ err }}</strong>
+        </div>
+      }
+      <form>
+        <div class="txt_field form-group">
+          <label>Veuillez entrer le code envoyé par mail :</label>
+          <input
+            type="text"
+            name="code"
+            [(ngModel)]="code"
+            class="form-control"
+            placeholder="code de confirmation"
+          />
+        </div>
+        <button
+          type="button"
+          class="btn btn-success mt-3"
+          (click)="onValidateEmail()"
+        >
+          S'inscrire
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
