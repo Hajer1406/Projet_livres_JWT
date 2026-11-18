@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
 		if (optionaluser.isPresent())
 			throw new EmailAlreadyExistsException("email déjà existant!");
 
+		User existingUser = userRep.findByUsername(request.getUsername());
+		if (existingUser != null)
+			throw new EmailAlreadyExistsException("Nom d'utilisateur déjà utilisé !");
+
 		User newUser = new User();
 		newUser.setUsername(request.getUsername());
 		newUser.setEmail(request.getEmail());

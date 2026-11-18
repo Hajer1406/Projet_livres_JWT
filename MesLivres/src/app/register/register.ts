@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -30,7 +30,8 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -45,24 +46,28 @@ export class RegisterComponent implements OnInit {
   onRegister() {
     this.loading = true;
     this.err = null;
+    this.cdr.detectChanges();
+
     this.authService.registerUser(this.user).subscribe({
       next: (res) => {
         this.authService.setRegistredUser(this.user);
         this.loading = false;
+        this.cdr.detectChanges();
         this.toastr.success('veillez confirmer votre email', 'Confirmation');
         this.router.navigate(['/verifEmail']);
       },
       error: (err: any) => {
         this.loading = false;
         if (err.error?.errorCode === 'USER_EMAIL_ALREADY_EXISTS') {
-          this.err = 'Email already used!';
-        } else if (err.status == 400) {
           this.err = err.error?.message || 'Email already used!';
-        } else if (err.status === 0) {
-          this.err = 'Impossible de contacter le serveur backend (port 8081). Vérifiez que users-microservice et MySQL sont démarrés.';
+        } else if (err.error?.message?.includes('Duplicate entry')) {
+          this.err = "Nom d'utilisateur déjà utilisé !";
+        } else if (err.status == 400) {
+          this.err = err.error?.message || "Erreur lors de l'inscription";
         } else {
-          this.err = err.error?.message || 'Erreur lors de l\'inscription';
+          this.err = err.error?.message || "Erreur lors de l'inscription";
         }
+        this.cdr.detectChanges();
       },
     });
   }

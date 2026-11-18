@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,8 +20,9 @@ export class VerifEmailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.user = this.authService.regitredUser;
@@ -52,6 +53,7 @@ export class VerifEmailComponent implements OnInit {
         } else {
           this.err = err.error?.message || 'Erreur serveur';
         }
+        this.cdr.detectChanges();
         console.log(err.error?.errorCode);
       },
     });

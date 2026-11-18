@@ -42,11 +42,15 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/api/livresByTitre/**").hasAnyAuthority("ADMIN", "USER")
 						.requestMatchers(HttpMethod.GET, "/api/livresParEcrivain/**").hasAnyAuthority("ADMIN", "USER")
 						.requestMatchers(HttpMethod.GET, "/api/ecriv/**").hasAnyAuthority("ADMIN", "USER")
+						.requestMatchers(HttpMethod.GET, "/ecriv/**").hasAnyAuthority("ADMIN", "USER")
 
-						// Ajouter, Modifier, Supprimer un livre : réservé uniquement à l'ADMIN
+						// Ajouter, Modifier, Supprimer un livre ou un écrivain : réservé uniquement à l'ADMIN
 						.requestMatchers(HttpMethod.POST, "/api/addlivre/**").hasAnyAuthority("ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/api/updatelivre/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/dellivre/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/ecriv/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/ecriv/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/ecriv/**").hasAuthority("ADMIN")
 
 						// Tout le reste nécessite une authentification
 						.anyRequest().authenticated())
